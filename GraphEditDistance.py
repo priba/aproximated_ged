@@ -3,16 +3,13 @@ class GraphEditDistance(object):
         An abstract class representing the Graph edit distance.
     """
 
-    def __init__(self):
-        pass
-
-    def __substitution(self):
+    def substitution(self, values1, values2):
         raise NotImplementedError
 
-    def __insertion(self):
+    def insertion(self, values):
         raise NotImplementedError
 
-    def __deletion(self):
+    def deletion(self, values):
         raise NotImplementedError
 
     def ged(self, g1, g2):
