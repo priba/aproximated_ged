@@ -32,7 +32,7 @@ class VanillaAED(AproximatedEditDistance):
 
         self.metric = metric
 
-    def substitution(self, g1, g2):
+    def node_substitution(self, g1, g2):
         values1 = [v for k, v in g1.nodes(data=True)]
         v1 = [list(chain.from_iterable(l.values())) for l in values1]
 
@@ -41,17 +41,36 @@ class VanillaAED(AproximatedEditDistance):
 
         node_dist = cdist(np.array(v1), np.array(v2), metric=self.metric)
 
+        i1 = 0
+        for k1 in g1.nodes():
+            i2=0
+            for k2 in g2.nodes():
+
+                node_dist[i1,i2] += self.edge_ed(g1[k1], g2[k2])
+                i2 += 1
+            i1 += 1
+
         return node_dist
 
-    def insertion(self, g):
+    def node_insertion(self, g):
         values = [v for k, v in g.nodes(data=True)]
-        insert_edges = [len(g[k]) for k in g.nodes()]
-        return [self.ins_node]*len(values) + np.array([self.ins_edge]*len(values))*insert_edges
+        return [self.ins_node]*len(values) + self.edge_insertion(g.edge.values())
 
-    def deletion(self, g):
+    def node_deletion(self, g):
         values = [v for k, v in g.nodes(data=True)]
-        delete_edges = [len(g[k]) for k in g.nodes()]
-        return [self.del_node] * len(values) + np.array([self.del_edge] * len(values)) * delete_edges
+        return [self.del_node] * len(values) + self.edge_deletion(g.edge.values())
+
+    def edge_substitution(self, g1, g2):
+        edge_dist = cdist(np.array([l.values() for l in g1]), np.array([l.values() for l in g2]), metric=self.metric)
+        return edge_dist
+
+    def edge_insertion(self, g):
+        insert_edges = [len(e) for e in g]
+        return np.array([self.ins_edge] * len(insert_edges)) * insert_edges
+
+    def edge_deletion(self, g):
+        delete_edges = [len(e) for e in g]
+        return np.array([self.del_edge] * len(delete_edges)) * delete_edges
 
 if __name__ == '__main__':
 
