@@ -28,16 +28,14 @@ class AproximatedEditDistance(GraphEditDistance):
 
         # Insertion
         cost_matrix[len(g1):, 0:len(g2)] = np.inf
-        values1 = [v for k, v in g1.nodes(data=True)]
-        np.fill_diagonal(cost_matrix[len(g1):, 0:len(g2)], self.insertion(values1))
+        np.fill_diagonal(cost_matrix[len(g1):, 0:len(g2)], self.insertion(g1))
 
         # Deletion
         cost_matrix[0:len(g1), len(g2):] = np.inf
-        values2 = [v for k, v in g2.nodes(data=True)]
-        np.fill_diagonal(cost_matrix[0:len(g1), len(g2):], self.deletion(values2))
+        np.fill_diagonal(cost_matrix[0:len(g1), len(g2):], self.deletion(g2))
 
         # Substitution
-        cost_matrix[0:len(g1), 0:len(g2)] = self.substitution(values1, values2)
+        cost_matrix[0:len(g1), 0:len(g2)] = self.substitution(g1, g2)
 
         return cost_matrix
 
