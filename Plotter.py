@@ -20,7 +20,7 @@ def plot_graph(g, show=False, save_path=''):
     fig.savefig(save_path)
 
 
-def plot_assignment(g1, g2, assignment):
+def plot_assignment(g1, g2, assignment, show=False):
     g_comp = nx.disjoint_union(g1, g2)
 
     position = {k: v['coord'] for k, v in g_comp.node.items()}
@@ -60,6 +60,8 @@ def plot_assignment(g1, g2, assignment):
     center = np.mean(position.values(), axis=0)
     max_pos = np.max(np.abs(position.values() - center))
 
+    fig = plt.figure()
+
     nx.draw_networkx_nodes(g_comp, position,
                            nodelist=[item for item in g_comp.nodes() if item not in nodelist_ins + nodelist_del],
                            node_color='black',
@@ -88,4 +90,8 @@ def plot_assignment(g1, g2, assignment):
 
     plt.ylim([center[1] - max_pos - 0.5, center[1] + max_pos + 0.5])
     plt.xlim([center[0] - max_pos - 0.5, center[0] + max_pos + 0.5])
-    plt.show()
+    plt.axis('off')
+    if show:
+        plt.show()
+
+    return fig
