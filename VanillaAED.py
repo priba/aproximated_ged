@@ -18,6 +18,8 @@ from scipy.spatial.distance import cdist
 import numpy as np
 import networkx as nx
 
+from Plotter import plot_assignment
+
 __author__ = "Pau Riba, Anjan Dutta"
 __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 
@@ -74,14 +76,12 @@ class VanillaAED(AproximatedEditDistance):
 
 if __name__ == '__main__':
 
-    path_dataset = '../graph_db/dataset/'
+    path_dataset = './data/'
     name_dataset = 'Letters'
-    set = 'train'
 
     aed = VanillaAED()
 
     path_dataset = os.path.join(path_dataset, name_dataset)
-    path_dataset = os.path.join(path_dataset, set)
     files = glob.glob(path_dataset + '/*.gml')
     for f1, f2 in itertools.combinations_with_replacement(files, 2):
         # Read graphs
@@ -91,5 +91,6 @@ if __name__ == '__main__':
         # Distance
         dist, assignment = aed.ged(g1, g2)
 
+        plot_assignment(g1, g2, assignment)
         print g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist)
 
