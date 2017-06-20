@@ -85,4 +85,6 @@ class AproximatedEditDistance(GraphEditDistance):
         # Graph edit distance
         dist = cost_matrix[row_ind, col_ind].sum()
 
-        return dist, (row_ind, col_ind)
+        not_assign = np.invert((row_ind >= len(g1)) * (col_ind >= len(g2)))
+
+        return dist, (row_ind[not_assign], col_ind[not_assign])

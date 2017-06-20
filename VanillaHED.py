@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-    VanillaAED.py
+    VanillaHED.py
 
-    Riesen, Kaspar, and Horst Bunke. "Approximate graph edit distance computation by means of bipartite graph matching."
-    Image and Vision computing 27.7 (2009): 950-959.
+    Fischer, Andreas, et al. "Approximation of graph edit distance based on Hausdorff matching."
+    Pattern recognition 48.2 (2015): 331-343.
 
     Basic implementation of edit cost operations.
 """
 
-from AproximatedEditDistance import AproximatedEditDistance
+from HausdorffEditDistance import HausdorffEditDistance
 
 import os
 import glob
@@ -21,15 +21,15 @@ from scipy.spatial.distance import cdist
 import numpy as np
 import networkx as nx
 
-from Plotter import plot_assignment
+from Plotter import plot_assignment_hausdorff
 
 __author__ = "Pau Riba, Anjan Dutta"
 __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 
 
-class VanillaAED(AproximatedEditDistance):
+class VanillaHED(HausdorffEditDistance):
     """
-        Vanilla Aproximated Edit distance, implements basic costs for substitution insertion and deletion.
+        Vanilla Hausdorff Edit distance, implements basic costs for substitution insertion and deletion.
     """
 
     def __init__(self, del_node = 0.25, ins_node = 0.5, del_edge = 0.1, ins_edge = 0.1, metric = "euclidean"):
@@ -55,15 +55,6 @@ class VanillaAED(AproximatedEditDistance):
         v2 = [list(chain.from_iterable(l.values())) for l in values2]
 
         node_dist = cdist(np.array(v1), np.array(v2), metric=self.metric)
-
-        i1 = 0
-        for k1 in g1.nodes():
-            i2=0
-            for k2 in g2.nodes():
-
-                node_dist[i1,i2] += self.edge_ed(g1[k1], g2[k2])
-                i2 += 1
-            i1 += 1
 
         return node_dist
 
@@ -91,7 +82,7 @@ class VanillaAED(AproximatedEditDistance):
     def edge_substitution(self, g1, g2):
         """
             Edge Substitution costs
-            :param g1, g2: Adjacency list for particular nodes.
+            :param g: Adjacency list.
             :return: List of edge deletion costs
         """
         edge_dist = cdist(np.array([l.values() for l in g1]), np.array([l.values() for l in g2]), metric=self.metric)
@@ -120,7 +111,7 @@ if __name__ == '__main__':
     path_dataset = './data/'
     name_dataset = 'Letters'
 
-    aed = VanillaAED()
+    hed = VanillaHED()
 
     path_dataset = os.path.join(path_dataset, name_dataset)
     files = glob.glob(path_dataset + '/*.gml')
@@ -130,9 +121,9 @@ if __name__ == '__main__':
         g2 = nx.read_gml(f2)
 
         # Distance
-        dist, assignment = aed.ged(g1, g2)
+        dist, assignment = hed.ged(g1, g2)
 
-        fig = plot_assignment(g1, g2, assignment)
-        fig.savefig('./data/Results/AED/'+g1.graph['class'] + '-' + g2.graph['class'] +'.png')
+        fig = plot_assignment_hausdorff(g1, g2, assignment)
+        fig.savefig('./data/Results/HED/'+g1.graph['class'] + '-' + g2.graph['class'] +'.png')
 
         print g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist)
