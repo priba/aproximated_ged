@@ -3,18 +3,14 @@
 
 """
     AproximatedEditDistance.py
+
     Riesen, Kaspar, and Horst Bunke. "Approximate graph edit distance computation by means of bipartite graph matching."
     Image and Vision computing 27.7 (2009): 950-959.
 """
 
 from GraphEditDistance import GraphEditDistance
 
-import os
-import glob
-import itertools
-
 from scipy.optimize import linear_sum_assignment
-import networkx as nx
 import numpy as np
 
 __author__ = "Pau Riba, Anjan Dutta"
@@ -22,6 +18,10 @@ __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 
 
 class AproximatedEditDistance(GraphEditDistance):
+    """
+        An abstract class implementing the Graph edit distance aproximation proposed by Riesen and Bunke.
+        The costs for nodes and edges must be defined by inheritance.
+    """
 
     def edge_cost_matrix(self, g1, g2):
         cost_matrix = np.zeros([len(g1)+len(g2),len(g1)+len(g2)])
@@ -39,6 +39,9 @@ class AproximatedEditDistance(GraphEditDistance):
 
         return cost_matrix
 
+    """
+        Aproximated graph edit distance for edges. The local structures are matched with this algorithm.
+    """
     def edge_ed(self, g1, g2):
 
         # Compute cost matrix
@@ -68,6 +71,9 @@ class AproximatedEditDistance(GraphEditDistance):
 
         return cost_matrix
 
+    """
+        Aproximated graph edit distance computation.
+    """
     def ged(self, g1, g2):
 
         # Compute cost matrix

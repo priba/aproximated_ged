@@ -1,9 +1,24 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""
+    GraphEditDistance.py
+
+    Abstract class of a generic graph edit distance algorithm.
+"""
+
+__author__ = "Pau Riba, Anjan Dutta"
+__email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
+
+
 class GraphEditDistance(object):
     """
         An abstract class representing the Graph edit distance.
     """
 
-    # NODE
+    """
+        Node edit operations
+    """
     def node_substitution(self, g1, g2):
         raise NotImplementedError
 
@@ -13,7 +28,9 @@ class GraphEditDistance(object):
     def node_deletion(self, g):
         raise NotImplementedError
 
-    # EDGE
+    """
+        Edge edit operations
+    """
     def edge_substitution(self, g1, g2):
         raise NotImplementedError
 
@@ -23,6 +40,8 @@ class GraphEditDistance(object):
     def edge_deletion(self, g):
         raise NotImplementedError
 
-    # Graph Edit Distance
+    """
+        Graph edit distance computation
+    """
     def ged(self, g1, g2):
         raise NotImplementedError

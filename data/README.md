@@ -4,7 +4,7 @@
 
 ## Algorithm
 
-* [AED](./Results/AED/)
+* [AED](./Results/AED/README.md)
 * [HED](./Results/HED/)
 
 ## Edit operations

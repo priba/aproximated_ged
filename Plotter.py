@@ -1,3 +1,15 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+"""
+    Plotter.py
+
+    Set of tools to visualize graphs. Assumes label 'coord' as the 2D position of the nodes.
+"""
+
+__author__ = "Pau Riba, Anjan Dutta"
+__email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
+
 import networkx as nx
 import matplotlib.pyplot as plt
 import numpy as np
