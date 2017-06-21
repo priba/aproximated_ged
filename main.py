@@ -42,4 +42,5 @@ if __name__ == '__main__':
         # Distance HED
         distHED, _ = hed.ged(g1, g2)
 
-        print(g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | HED: ' + str(distHED) + ' AED: ' + str(distAED) + ' | ' + str(distHED<=distAED))
+
+        print(g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | HED: ' + str(distHED) + ' AED: ' + str(distAED) + ' | ' + str(distHED<=distAED)) + (' GED ' if distHED==distAED else '')
