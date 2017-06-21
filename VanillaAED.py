@@ -135,4 +135,4 @@ if __name__ == '__main__':
         fig = plot_assignment(g1, g2, assignment)
         fig.savefig('./data/Results/AED/'+g1.graph['class'] + '-' + g2.graph['class'] +'.png')
 
-        print g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist)
+        print(g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist))

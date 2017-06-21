@@ -126,4 +126,4 @@ if __name__ == '__main__':
         fig = plot_assignment_hausdorff(g1, g2, assignment)
         fig.savefig('./data/Results/HED/'+g1.graph['class'] + '-' + g2.graph['class'] +'.png')
 
-        print g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist)
+        print(g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist))
