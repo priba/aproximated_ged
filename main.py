@@ -16,8 +16,6 @@ import itertools
 
 import networkx as nx
 
-from Plotter import plot_assignment
-
 __author__ = "Pau Riba, Anjan Dutta"
 __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 
