@@ -27,12 +27,14 @@ class HausdorffEditDistance(GraphEditDistance):
         c1 = self.edge_deletion(g1)
         c2 = self.edge_insertion(g2)
 
-        c = self.edge_substitution(g1, g2)
-        c1 = np.min([np.min(c, axis=1)/2, c1], axis=0)
-        c2 = np.min([np.min(c, axis=0) / 2, c2], axis=0)
+        c = self.edge_substitution(g1, g2)/2
+
+        for i in range(len(g1)):
+            for j in range(len(g2)):
+                c1[i] = np.min([c[i, j], c1[i]])
+                c2[j] = np.min([c[i, j], c2[j]])
 
         c = np.sum(c1) + np.sum(c2)
-
         return c
 
     def L_graph(self, g1, g2):
@@ -59,7 +61,7 @@ class HausdorffEditDistance(GraphEditDistance):
         assignment2 = np.array([len(g1) + 1]*len(g2))
 
         # Deletion
-        d1 = self.node_insertion(g1) + self.edge_deletion(g1.edge.values())/2
+        d1 = self.node_deletion(g1) + self.edge_deletion(g1.edge.values())/2
 
         # Insertion
         d2 = self.node_insertion(g2) + self.edge_insertion(g2.edge.values())/2
