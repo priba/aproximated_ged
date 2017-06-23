@@ -94,7 +94,7 @@ class VanillaAED(AproximatedEditDistance):
             :param g1, g2: Adjacency list for particular nodes.
             :return: List of edge deletion costs
         """
-        edge_dist = cdist(np.array([l.values() for l in g1]), np.array([l.values() for l in g2]), metric=self.metric)
+        edge_dist = cdist(np.array([list(l.values()) for l in g1]), np.array([list(l.values()) for l in g2]), metric=self.metric)
         return edge_dist
 
     def edge_insertion(self, g):
@@ -117,7 +117,7 @@ class VanillaAED(AproximatedEditDistance):
 
 if __name__ == '__main__':
 
-    path_dataset = './data/'
+    path_dataset = '/home/adutta/Dropbox/Personal/Workspace/DeepLearning/graph_db/dataset/'
     name_dataset = 'Letters'
 
     aed = VanillaAED()
@@ -135,4 +135,4 @@ if __name__ == '__main__':
         fig = plot_assignment(g1, g2, assignment)
         fig.savefig('./data/Results/AED/'+g1.graph['class'] + '-' + g2.graph['class'] +'.png')
 
-        print g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist)
+        print(g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist))
