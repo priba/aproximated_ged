@@ -65,8 +65,8 @@ def plot_assignment(g1, g2, assignment, show=False):
             # Insertion
             nodelist_ins += [i2+len(g1)]
 
-    center = np.mean(position.values(), axis=0)
-    max_pos = np.max(np.abs(position.values() - center))
+    center = np.mean(list(position.values()), axis=0)
+    max_pos = np.max(np.abs(list(position.values()) - center))
 
     fig = plt.figure()
 

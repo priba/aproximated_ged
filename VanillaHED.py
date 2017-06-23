@@ -85,7 +85,7 @@ class VanillaHED(HausdorffEditDistance):
             :param g: Adjacency list.
             :return: List of edge deletion costs
         """
-        edge_dist = cdist(np.array([l.values() for l in g1]), np.array([l.values() for l in g2]), metric=self.metric)
+        edge_dist = cdist(np.array([list(l.values()) for l in g1]), np.array([list(l.values()) for l in g2]), metric=self.metric)
         return edge_dist
 
     def edge_insertion(self, g):
