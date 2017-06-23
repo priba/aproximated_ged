@@ -32,7 +32,7 @@ class VanillaAED(AproximatedEditDistance):
         Vanilla Aproximated Edit distance, implements basic costs for substitution insertion and deletion.
     """
 
-    def __init__(self, del_node = 0.25, ins_node = 0.5, del_edge = 0.1, ins_edge = 0.1, metric = "euclidean"):
+    def __init__(self, del_node = 0.5, ins_node = 0.5, del_edge = 0.1, ins_edge = 0.1, metric = "euclidean"):
         self.del_node = del_node
         self.ins_node = ins_node
         self.del_edge = del_edge
@@ -56,15 +56,6 @@ class VanillaAED(AproximatedEditDistance):
 
         node_dist = cdist(np.array(v1), np.array(v2), metric=self.metric)
 
-        i1 = 0
-        for k1 in g1.nodes():
-            i2=0
-            for k2 in g2.nodes():
-
-                node_dist[i1,i2] += self.edge_ed(g1[k1], g2[k2])
-                i2 += 1
-            i1 += 1
-
         return node_dist
 
     def node_insertion(self, g):
@@ -74,7 +65,7 @@ class VanillaAED(AproximatedEditDistance):
             :return: List with the insertion costs
         """
         values = [v for k, v in g.nodes(data=True)]
-        return [self.ins_node]*len(values) + self.edge_insertion(g.edge.values())
+        return [self.ins_node]*len(values)
 
     def node_deletion(self, g):
         """
@@ -83,7 +74,7 @@ class VanillaAED(AproximatedEditDistance):
             :return: List with the deletion costs
         """
         values = [v for k, v in g.nodes(data=True)]
-        return [self.del_node] * len(values) + self.edge_deletion(g.edge.values())
+        return [self.del_node] * len(values)
 
     """
         Edge edit operations
