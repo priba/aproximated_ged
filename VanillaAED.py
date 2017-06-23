@@ -108,7 +108,7 @@ class VanillaAED(AproximatedEditDistance):
 
 if __name__ == '__main__':
 
-    path_dataset = '/home/adutta/Dropbox/Personal/Workspace/DeepLearning/graph_db/dataset/'
+    path_dataset = './data/'
     name_dataset = 'Letters'
 
     aed = VanillaAED()
