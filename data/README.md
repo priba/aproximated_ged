@@ -9,11 +9,31 @@
 
 ## Edit operations
 
-### Insertion
+Given a graph ![equation](http://latex.codecogs.com/gif.latex?G%3D%20%28V%2CE%2C%5Cmu%2C%5Cnu%29).
 
-### Deletion
+### Node Insertion
 
-### Substitution
+![equation](http://latex.codecogs.com/gif.latex?c%28%5Cvarepsilon%5Crightarrow%20v%29%20%3D%200.5%20&plus;%20%5Csum_%7Be%5Cin%5Cmathcal%7BN%7D%28v%29%7Dc%28%5Cvarepsilon%5Crightarrow%20e%29)
+
+### Node Deletion
+
+![equation](http://latex.codecogs.com/gif.latex?c%28u%5Crightarrow%20%5Cvarepsilon%29%20%3D%200.5%20&plus;%20%5Csum_%7Be%5Cin%5Cmathcal%7BN%7D%28u%29%7Dc%28e%5Crightarrow%20%5Cvarepsilon%29)
+
+### Node Substitution
+
+![equation](http://latex.codecogs.com/gif.latex?c%28u%20%5Crightarrow%20v%29%20%3D%20%5Cleft%20%5C%7C%20%5Cmu%28u%29-%5Cmu%28v%29%29%20%5Cright%20%5C%7C%20&plus;%20%5Coperatorname%7BGED%7D%28u.E%2Cv.E%29)
+
+### Edge Insertion
+
+![equation](http://latex.codecogs.com/gif.latex?c%28%5Cvarepsilon%20%5Crightarrow%20t%29%20%3D%200.1)
+
+### Edge Deletion
+
+![equation](http://latex.codecogs.com/gif.latex?c%28q%20%5Crightarrow%20%5Cvarepsilon%29%20%3D%200.1)
+
+### Edge Substitution
+
+![equation](http://latex.codecogs.com/gif.latex?c%28q%20%5Crightarrow%20t%29%20%3D%20%5Cleft%20%5C%7C%20%5Cnu%28q%29-%5Cnu%28t%29%29%20%5Cright%20%5C%7C)
 
 ## Graphs
 
