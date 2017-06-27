@@ -6,6 +6,7 @@
 
     Computes the distance between .
 """
+from __future__ import division
 
 from VanillaAED import VanillaAED
 from VanillaHED import VanillaHED
@@ -15,7 +16,7 @@ from sklearn.metrics import average_precision_score
 
 import networkx as nx
 import numpy as np
-from scipy import stats
+
 
 import argparse
 
