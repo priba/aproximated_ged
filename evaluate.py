@@ -66,24 +66,34 @@ def dist_matrix(fold1, fold2, ged):
 
     return d, l1, l2
 
+def mode_knn(a, axis=1):
+    scores = np.unique(np.ravel(a))       # get ALL unique values
+    testshape = list(a.shape)
 
+    oldcounts = np.zeros(testshape, dtype=int)
+    for score in scores:
+        template = (a == score)
+        counts = np.sum(template, axis)
 
-def evaluation(folder1, folder2, ged):
+        oldcounts[template] = counts[np.sum(template, axis) > 0]
+
+    ind = np.argmax(oldcounts, axis=1)
+    return a[np.arange(a.shape[0]),ind]
+
+def evaluation(folder1, folder2, ged, k=5):
     # Distance matrix computation
     d, l1, l2 = dist_matrix(folder1, folder2, ged)
 
     # Evaluation
     ind = np.argsort(d, axis=1)
-    d_sort = np.sort(d, axis=1)
-    k=5
     l2_matrix = np.array([np.array(l2)[ind[i,0:k]] for i in range(len(l1))])
-    stats.mode(l2_matrix, axis=1)
+
+    pred = mode_knn(l2_matrix)
+    acc = np.sum(l1 == pred)/pred.shape[0]
 
     comparison = np.array([[i == j for j in l2] for i in l1])
-    ind_sort = comparison[:,ind][np.eye(ind.shape[0],ind.shape[1], dtype=bool)]
-
-
     mAP = average_precision_score(comparison, np.exp(-d))
+    print('mAP: ' + str(mAP) + ' Acc: ' + str(acc))
 
 if __name__ == '__main__':
     ged = {
