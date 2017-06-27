@@ -26,8 +26,8 @@ __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 parser = argparse.ArgumentParser(description='Computes the distance all vs all between two folders.')
 
 # Prototypes
-parser.add_argument('--folder1', help='Input graphs.', default='./data/Letters/test/')
-parser.add_argument('--folder2', help='Graphs against whose computes the distance.', default='./data/Letters/train/')
+parser.add_argument('--folder1', help='Input graphs.', default='../graph_db/dataset/Letters/MED/test/')
+parser.add_argument('--folder2', help='Graphs against whose computes the distance.', default='../graph_db/dataset/Letters/MED/train/')
 
 # Edit Distance
 parser.add_argument('--ged', help='Graph edit distance algorithm.', default='vanillaAED')
@@ -80,8 +80,8 @@ def mode_knn(a, axis=1):
     for score in scores:
         template = (a == score)
         counts = np.sum(template, axis)
-
-        oldcounts[template] = counts[np.sum(template, axis) > 0]
+        counts = np.repeat(counts[..., None], a.shape[1], axis=1)
+        oldcounts[template] = counts[template]
 
     ind = np.argmax(oldcounts, axis=1)
     return a[np.arange(a.shape[0]),ind]
@@ -124,7 +124,6 @@ if __name__ == '__main__':
     else:
         print('Classification')
         criterium = lambda d, l1, l2: classification(d, l1, l2, args.knn)
-
 
     if ged is not None:
         evaluation(args.folder1, args.folder2, ged, criterium)
