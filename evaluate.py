@@ -33,6 +33,11 @@ parser.add_argument('--folder2', help='Graphs against whose computes the distanc
 parser.add_argument('--ged', help='Graph edit distance algorithm.', default='vanillaAED')
 parser.add_argument('--edit-operations', help='Graph edit distance parameters.', default={})
 
+# Evaluation
+parser.add_argument('--retrieval', action='store_true', default=False,
+                    help='Computes retrieval instead of classification.')
+parser.add_argument('--knn', help='k for k-NN classifier.', default=5)
+
 args = parser.parse_args()
 
 
@@ -66,6 +71,7 @@ def dist_matrix(fold1, fold2, ged):
 
     return d, l1, l2
 
+
 def mode_knn(a, axis=1):
     scores = np.unique(np.ravel(a))       # get ALL unique values
     testshape = list(a.shape)
@@ -80,20 +86,31 @@ def mode_knn(a, axis=1):
     ind = np.argmax(oldcounts, axis=1)
     return a[np.arange(a.shape[0]),ind]
 
-def evaluation(folder1, folder2, ged, k=5):
+
+def classification(d, l1, l2, k=5):
+    ind = np.argsort(d, axis=1)
+    l2_matrix = np.array([np.array(l2)[ind[i, 0:k]] for i in range(len(l1))])
+
+    pred = mode_knn(l2_matrix)
+    acc = np.sum(l1 == pred) / pred.shape[0]
+    return acc
+
+
+def retrievel(d, l1, l2):
+    comparison = np.array([[i == j for j in l2] for i in l1])
+    mAP = average_precision_score(comparison, np.exp(-d))
+    return mAP
+
+
+def evaluation(folder1, folder2, ged, criterium):
     # Distance matrix computation
     d, l1, l2 = dist_matrix(folder1, folder2, ged)
 
     # Evaluation
-    ind = np.argsort(d, axis=1)
-    l2_matrix = np.array([np.array(l2)[ind[i,0:k]] for i in range(len(l1))])
+    performance = criterium(d, l1, l2)
 
-    pred = mode_knn(l2_matrix)
-    acc = np.sum(l1 == pred)/pred.shape[0]
+    print('Performance: ' + str(performance))
 
-    comparison = np.array([[i == j for j in l2] for i in l1])
-    mAP = average_precision_score(comparison, np.exp(-d))
-    print('mAP: ' + str(mAP) + ' Acc: ' + str(acc))
 
 if __name__ == '__main__':
     ged = {
@@ -101,7 +118,15 @@ if __name__ == '__main__':
         'vanillahed': VanillaHED(**args.edit_operations)
     }.get(args.ged.lower(), None)
 
+    if args.retrieval:
+        print('Retrieval')
+        criterium = retrievel
+    else:
+        print('Classification')
+        criterium = lambda d, l1, l2: classification(d, l1, l2, args.knn)
+
+
     if ged is not None:
-        evaluation(args.folder1, args.folder2, ged)
+        evaluation(args.folder1, args.folder2, ged, criterium)
     else:
         raise NameError('GED argument not implemented')
