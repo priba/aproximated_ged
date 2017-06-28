@@ -12,8 +12,9 @@ from VanillaAED import VanillaAED
 from VanillaHED import VanillaHED
 
 import glob
-from sklearn.metrics import average_precision_score
+import time
 
+from sklearn.metrics import average_precision_score
 import networkx as nx
 import numpy as np
 
@@ -28,7 +29,8 @@ parser = argparse.ArgumentParser(description='Computes the distance all vs all b
 
 # Prototypes
 parser.add_argument('--folder1', help='Input graphs.', default='../graph_db/dataset/Letters/MED/test/')
-parser.add_argument('--folder2', help='Graphs against whose computes the distance.', default='../graph_db/dataset/Letters/MED/train/')
+parser.add_argument('--folder2', help='Graphs against whose computes the distance.',
+                    default='../graph_db/dataset/Letters/MED/train/')
 
 # Edit Distance
 parser.add_argument('--ged', help='Graph edit distance algorithm.', default='vanillaAED')
@@ -104,13 +106,19 @@ def retrievel(d, l1, l2):
 
 
 def evaluation(folder1, folder2, ged, criterium):
+    startC = time.time()
     # Distance matrix computation
     d, l1, l2 = dist_matrix(folder1, folder2, ged)
+
+    startE = time.time()
 
     # Evaluation
     performance = criterium(d, l1, l2)
 
-    print('Performance: ' + str(performance))
+    print('Performance: {}\t'
+          'Time Computation {}\t'
+          'Time Evaluation {}'
+          .format(performance, startE-startC, time.time()-startE))
 
 
 if __name__ == '__main__':
