@@ -4,8 +4,9 @@
 """
     evaluate.py
 
-    Computes the distance between .
+    Computes the distance between two folders.
 """
+
 from __future__ import division
 
 from VanillaAED import VanillaAED
@@ -17,7 +18,6 @@ import time
 from sklearn.metrics import average_precision_score
 import networkx as nx
 import numpy as np
-
 
 import argparse
 
