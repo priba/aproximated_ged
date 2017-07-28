@@ -50,9 +50,9 @@ def dist_matrix(fold1, fold2, ged):
     # Find graph files
     files1 = glob.glob(fold1 + '/*.gml')
     files2 = glob.glob(fold2 + '/*.gml')
-    
+
     if args.fid is not None:
-        files1 = [ files1[int(args.fid)] ]
+        files1 = [ files1[int(args.fid)-1] ]
 
     # Distance matrix
     d = np.zeros([len(files1), len(files2)])
