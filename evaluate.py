@@ -31,9 +31,11 @@ parser = argparse.ArgumentParser(description='Computes the distance all vs all b
 parser.add_argument('--folder1', help='Input graphs.', default='../graph_db/dataset/Letters/MED/test/')
 parser.add_argument('--folder2', help='Graphs against whose computes the distance.',
                     default='../graph_db/dataset/Letters/MED/train/')
+parser.add_argument('--fid', help='Select an specific file from folder1.',
+                    default=None)
 
 # Edit Distance
-parser.add_argument('--ged', help='Graph edit distance algorithm.', default='vanillaAED')
+parser.add_argument('--ged', help='Graph edit distance algorithm.', default='vanillaHED')
 parser.add_argument('--edit-operations', help='Graph edit distance parameters.', default={})
 
 # Evaluation
@@ -48,6 +50,9 @@ def dist_matrix(fold1, fold2, ged):
     # Find graph files
     files1 = glob.glob(fold1 + '/*.gml')
     files2 = glob.glob(fold2 + '/*.gml')
+    
+    if args.fid is not None:
+        files1 = [ files1[int(args.fid)] ]
 
     # Distance matrix
     d = np.zeros([len(files1), len(files2)])

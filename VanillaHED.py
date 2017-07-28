@@ -32,7 +32,7 @@ class VanillaHED(HausdorffEditDistance):
         Vanilla Hausdorff Edit distance, implements basic costs for substitution insertion and deletion.
     """
 
-    def __init__(self, del_node = 0.5, ins_node = 0.5, del_edge = 0.1, ins_edge = 0.1, metric = "euclidean"):
+    def __init__(self, del_node = 0.5, ins_node = 0.5, del_edge = 0.25, ins_edge = 0.25, metric = "euclidean"):
         self.del_node = del_node
         self.ins_node = ins_node
         self.del_edge = del_edge
