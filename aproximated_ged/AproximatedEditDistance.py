@@ -8,7 +8,7 @@
     Image and Vision computing 27.7 (2009): 950-959.
 """
 
-from GraphEditDistance import GraphEditDistance
+from .GraphEditDistance import GraphEditDistance
 
 from scipy.optimize import linear_sum_assignment
 import numpy as np

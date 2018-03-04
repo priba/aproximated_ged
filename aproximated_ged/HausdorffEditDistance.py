@@ -8,7 +8,7 @@
     Pattern recognition 48.2 (2015): 331-343.
 """
 
-from GraphEditDistance import GraphEditDistance
+from .GraphEditDistance import GraphEditDistance
 
 from scipy.optimize import linear_sum_assignment
 import numpy as np

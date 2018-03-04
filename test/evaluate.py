@@ -9,8 +9,8 @@
 
 from __future__ import division
 
-from VanillaAED import VanillaAED
-from VanillaHED import VanillaHED
+from aproximated_ged import VanillaAED
+from aproximated_ged import VanillaHED
 
 import glob
 import time
