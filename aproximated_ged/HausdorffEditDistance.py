@@ -68,11 +68,20 @@ class HausdorffEditDistance(GraphEditDistance):
 
         # Substitution
         cs = self.node_substitution(g1, g2)
+
+        # edges can be text-named
+        g1edges = list(g1.edge.keys())
+        g2edges = list(g2.edge.keys())
+
         for i in range(len(d1)):
             for j in range(len(d2)):
-                ce = self.hec(g1.edge[i].values(), g2.edge[j].values())
-                ce = np.max([self.L_edges(g1.edge[i].values(), g2.edge[j].values()), ce])
+                g1v = g1.edge[g1edges[i]].values()
+                g2v = g2.edge[g2edges[j]].values()
+
+                ce = self.hec(g1v, g2v)
+                ce = np.max([self.L_edges(g1v, g2v), ce])
                 ce = (cs[i,j] + ce/2)/2
+
                 if ce < d1[i]:
                     d1[i] = ce
                     assignment1[i] = j
