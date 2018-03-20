@@ -28,9 +28,9 @@ __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 parser = argparse.ArgumentParser(description='Computes the distance all vs all between two folders.')
 
 # Prototypes
-parser.add_argument('--folder1', help='Input graphs.', default='../graph_db/dataset/Letters/MED/test/')
+parser.add_argument('--folder1', help='Input graphs.', default='./data/Letters/')
 parser.add_argument('--folder2', help='Graphs against whose computes the distance.',
-                    default='../graph_db/dataset/Letters/MED/train/')
+                    default='./data/Letters/')
 parser.add_argument('--fid', help='Select an specific file from folder1.',
                     default=None)
 
@@ -90,7 +90,6 @@ def mode_knn(a, axis=1):
         counts = np.sum(template, axis)
         counts = np.repeat(counts[..., None], a.shape[1], axis=1)
         oldcounts[template] = counts[template]
-
     ind = np.argmax(oldcounts, axis=1)
     return a[np.arange(a.shape[0]),ind]
 
@@ -98,7 +97,6 @@ def mode_knn(a, axis=1):
 def classification(d, l1, l2, k=5):
     ind = np.argsort(d, axis=1)
     l2_matrix = np.array([np.array(l2)[ind[i, 0:k]] for i in range(len(l1))])
-
     pred = mode_knn(l2_matrix)
     acc = np.sum(l1 == pred) / pred.shape[0]
     return acc
