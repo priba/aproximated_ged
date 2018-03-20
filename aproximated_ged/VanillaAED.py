@@ -2,15 +2,15 @@
 # -*- coding: utf-8 -*-
 
 """
-    VanillaHED.py
+    VanillaAED.py
 
-    Fischer, Andreas, et al. "Approximation of graph edit distance based on Hausdorff matching."
-    Pattern recognition 48.2 (2015): 331-343.
+    Riesen, Kaspar, and Horst Bunke. "Approximate graph edit distance computation by means of bipartite graph matching."
+    Image and Vision computing 27.7 (2009): 950-959.
 
     Basic implementation of edit cost operations.
 """
 
-from HausdorffEditDistance import HausdorffEditDistance
+from .AproximatedEditDistance import AproximatedEditDistance
 
 import os
 import glob
@@ -21,15 +21,15 @@ from scipy.spatial.distance import cdist
 import numpy as np
 import networkx as nx
 
-from Plotter import plot_assignment_hausdorff
+from .Plotter import plot_assignment
 
 __author__ = "Pau Riba, Anjan Dutta"
 __email__ = "priba@cvc.uab.cat, adutta@cvc.uab.cat"
 
 
-class VanillaHED(HausdorffEditDistance):
+class VanillaAED(AproximatedEditDistance):
     """
-        Vanilla Hausdorff Edit distance, implements basic costs for substitution insertion and deletion.
+        Vanilla Aproximated Edit distance, implements basic costs for substitution insertion and deletion.
     """
 
     def __init__(self, del_node = 0.5, ins_node = 0.5, del_edge = 0.25, ins_edge = 0.25, metric = "euclidean"):
@@ -82,7 +82,7 @@ class VanillaHED(HausdorffEditDistance):
     def edge_substitution(self, g1, g2):
         """
             Edge Substitution costs
-            :param g: Adjacency list.
+            :param g1, g2: Adjacency list for particular nodes.
             :return: List of edge deletion costs
         """
         edge_dist = cdist(np.array([list(l.values()) for l in g1]), np.array([list(l.values()) for l in g2]), metric=self.metric)
@@ -105,25 +105,3 @@ class VanillaHED(HausdorffEditDistance):
         """
         delete_edges = [len(e) for e in g]
         return np.array([self.del_edge] * len(delete_edges)) * delete_edges
-
-if __name__ == '__main__':
-
-    path_dataset = './data/'
-    name_dataset = 'Letters'
-
-    hed = VanillaHED()
-
-    path_dataset = os.path.join(path_dataset, name_dataset)
-    files = glob.glob(path_dataset + '/*.gml')
-    for f1, f2 in itertools.combinations_with_replacement(files, 2):
-        # Read graphs
-        g1 = nx.read_gml(f1)
-        g2 = nx.read_gml(f2)
-
-        # Distance
-        dist, assignment = hed.ged(g1, g2)
-
-        fig = plot_assignment_hausdorff(g1, g2, assignment)
-        fig.savefig('./data/Results/HED/'+g1.graph['class'] + '-' + g2.graph['class'] +'.png')
-
-        print(g1.graph['class'] + ' <-> ' + g2.graph['class'] + ' | Distance: ' + str(dist))
